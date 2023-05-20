@@ -1,23 +1,16 @@
 function plotComplexSeries()
-
-    % Funktionenreihe
-    series = (1i/((pi)*((1-2*n)))) * exp(2*1i*n*x);
-
     % Anzahl der Schritte für die diskrete Berechnung
     N = 10000;
 
-    % Anzahl der Reihenglieder
-    n=200;
+    n = 500; % Start Anzahl der Reihenglieder
 
-    computeComplexSeries(series, N, n)
-end
-
-function computeComplexSeries(series, N, n)
-     % Bereich für die x-Achse
+    % Bereich für die x-Achse
     x = linspace(-4*pi, 4*pi, N);
 
-    % Initialisierung der Funktion
-    f = zeros(1, N);
+    term = sprintf('(1i/((pi)*((1-2*n)))) * exp(2*1i*n*x)');
+
+    % c_0
+    offset = sprintf('0.5*exp(1i*x)'); 
 
     % Erstelle eine Figur und Achsen für den Schieberegler
     figure;
@@ -25,7 +18,7 @@ function computeComplexSeries(series, N, n)
 
     % Erstelle den Schieberegler
     M_slider = uicontrol('Style', 'slider', 'Units', 'normalized', ...
-        'Position', [0.3, 0.05, 0.4, 0.05], 'Value', 5000, ...
+        'Position', [0.3, 0.05, 0.4, 0.05], 'Value', n, ...
         'Min', 1, 'Max', 10000, 'SliderStep', [1/9999, 100/9999], ...
         'Callback', @updatePlot);
 
@@ -36,24 +29,30 @@ function computeComplexSeries(series, N, n)
         'HorizontalAlignment', 'center');
 
     % Berechnung der Fourier-Reihe und Plot aktualisieren
-    updatePlot(n, series);
+    updatePlot();
 
-    function updatePlot(series)
+    function F = computeFourierSeries(x, M, term)
+        % Initialisiere F für die Berechnung der Fourier-Reihe
+        F = zeros(1, N);
+
+        % Berechnung der Fourier-Reihe
+        for n = -M:M
+            F = F + term(x, n);
+        end
+
+        F = F + eval(offset);
+    end
+
+    function updatePlot(~, ~)
         % Aktualisierung des M-Werts aus dem Schieberegler
         M = round(get(M_slider, 'Value'));
 
         % Aktualisiere den Text des Schieberegler-Labels
         set(slider_label, 'String', num2str(M));
 
-        % Initialisiere f für die Berechnung der Fourier-Reihe
-        f = zeros(1, N);
-
         % Berechnung der Fourier-Reihe
-        for n = -M:M
-            f = f + series(n);
-        end
-
-        f = f + 0.5*exp(1i*x);
+        n_term = @(x, n) eval(term);
+        f = computeFourierSeries(x, M, n_term);
 
         x_scaled = x / pi; % Skalierung der x-Achse
 
