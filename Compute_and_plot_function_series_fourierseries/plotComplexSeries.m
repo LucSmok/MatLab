@@ -8,9 +8,11 @@ function plotComplexSeries()
     x = linspace(-4*pi, 4*pi, N);
 
     term = sprintf('(1i/((pi)*((1-2*n)))) * exp(2*1i*n*x)');
+    %term = sprintf('- (2/(((2*n-1)^2)*pi^2)) * cos((2*n-1)*x) + ((-1)^(n+1)/(n*pi))*sin(n*x)');
 
     % c_0
     offset = sprintf('0.5*exp(1i*x)'); 
+    %offset = sprintf(''); 
 
     % Erstelle eine Figur und Achsen für den Schieberegler
     figure;
@@ -69,8 +71,8 @@ function plotComplexSeries()
         title(ax, 'Darstellung der Funktion in der gaußschen Zahlenebene');
 
         % Setze die Y-Limite für die Imaginär- und Realachse auf 1.2
-        ylim(ax, [-1.2, 1.2]);
-        zlim(ax, [-0.2, 1.2]);
+        %ylim(ax, [-1.2, 1.2]);
+        %zlim(ax, [-0.2, 1.2]);
 
     end
 end
