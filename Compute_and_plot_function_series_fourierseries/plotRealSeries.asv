@@ -19,11 +19,11 @@ function plotRealSeries()
     f = zeros(1, N);
 
     % Berechnung der Fourier-Reihe
-    for n = 1:M
-        f =  f + (2/n)*((-1)^(n+1))*cos(n*x);%3*power((x-1),n)-6*(power((x-2),n));%(-3*power((x-1),n))-6*(power((x-2),n));%(2/(((2*n-1)^2)*pi^2)) * cos((2*n-1)*x) + ((-1)^(n+1)/(n*pi))*sin(n*x);
+    for n = 0:M
+        f =  f + 3*power((x-1),n)-6*(power((x-2),n));%(-3*power((x-1),n))-6*(power((x-2),n));%(2/(((2*n-1)^2)*pi^2)) * cos((2*n-1)*x) + ((-1)^(n+1)/(n*pi))*sin(n*x);
     end
     
-    y= 0;%((3*(x-1))./(((power(x,2))-5*x)-6));
+    y= ((3*(x-1))./(((power(x,2))-5*x)-6));
     disp(y);
 
     disp(f);

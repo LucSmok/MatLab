@@ -1,18 +1,46 @@
 function plotComplexSeries()
     % Anzahl der Schritte für die diskrete Berechnung
-    N = 10000;
+    N = 1000;
 
     n = 500; % Start Anzahl der Reihenglieder
 
     % Bereich für die x-Achse
     x = linspace(-4*pi, 4*pi, N);
+    excluded_values = [0];
+    %x = setdiff(x, excluded_values);
 
-    term = sprintf('(1i/((pi)*((1-2*n)))) * exp(2*1i*n*x)');
+    y=0;%exp(1i*pi);
+    %y=x;%exp(1i.*x+2/3*pi);
+
+    %term = sprintf('(1i/((pi)*((1-2*n)))) * exp(2*1i*n*x)');
+    %term_n = sprintf('((-1)*1i/((pi)*((1-2*n)))) * exp(2*1i*n*x)');
     %term = sprintf('- (2/(((2*n-1)^2)*pi^2)) * cos((2*n-1)*x) + ((-1)^(n+1)/(n*pi))*sin(n*x)');
+    %term = sprintf('((1i-2*n*pi+2*pi)/(2*(pi)^2*n))*exp(1i*n*x)');
+    %term = sprintf('-2*exp(1i*n*x)');
+    %term = sprintf('(-2*((2*pi*n-i)*sin(pi*n))/)*exp(1i*x*n)');
+    %term = sprintf('((-2*((2*pi*n-1i)*sin(pi*n)+1i*pi*n*cos(pi*n)))/(pi*n^2))*exp(1i*x*n)');
+    %term = sprintf('(((1i)/(2*((pi)^2)*n))-(1/pi)*(exp(-1i*n*2*pi)+(1/n)))*exp(1i*n*x)');
+    %term = sprintf('(((sin(n*x))/(pi))*(((sin(2*pi*n))/(pi*n^2)-2/n)))');
+    %term = sprintf('(-2/(n*(pi)^2))*sin(n*x)');%H18 reel funktioniert
+    %term_n = sprintf('conj((-2/(n*(pi)^2)))*sin(n*x)');%H18 reel funktioniert
+    %f=(((sin(n*x))/(pi))*(((sin(2*pi*n))/(pi*n^2)-2/n)));
 
-    % c_0
-    offset = sprintf('0.5*exp(1i*x)'); 
-    %offset = sprintf(''); 
+    %term = sprintf('(-2/(n*(pi)^2))*sin(n*x)');%H18 reel funktioniert
+
+    %H18 komplex funktioniert 
+    %term = sprintf('((1/(2*pi))*(((1i*((n)*pi-2*pi*(n)-1i)*exp(-1i*(n)*pi))/(pi*(n)^2))-(1i*((n)*(-pi)-2*pi*(n)-1i)*exp(1i*(n)*pi))/(pi*(n)^2)))*exp(1i*x*(n))');
+    %term_n = sprintf('((1/(2*pi))*(((-1i*((n)*pi-2*pi*(n)-1i)*exp(1i*(n)*pi))/(pi*(n)^2))-(-1i*((n)*(-pi)-2*pi*(n)-1i)*exp(-1i*(n)*pi))/(pi*(n)^2)))*exp(1i*x*(n))');
+    %term = sprintf('((1i./(n*pi))*((exp(1i.*n*pi))-(exp(-1i*n*pi)))+(1i*pi/n)*(exp(-1i*n*pi)+exp(1i*n*pi))+(1i/n)*(exp(1i*n*pi)-exp(-1i*n*pi)))*exp(1i*n*x)');
+    %w=((1i./(n*pi))*((exp(1i.*n*pi))-(exp(-1i*n*pi)))+(1i*pi/n)*(exp(-1i*n*pi)+exp(1i*n*pi))+(1i/n)*(exp(1i*n*pi)-exp(-1i*n*pi)))*exp(1i*n*x);
+    %a=(1/(2*pi))*(((1i*(n*pi-2*pi*n-1i)*exp(-1i*n*pi))/(pi*n^2))-(1i*(n*(-pi)-2*pi*n-1i)*exp(1i*n*pi))/(pi*n^2));
+    %term = sprintf('((1i*pi)/n)*2*((-1)^n)*exp(1i*n*x)');
+    %term = sprintf('((1i)/(pi*n))*((-1)^n)*exp(1i*n*x)');
+    term = sprintf('((1i*2)/(pi*n))*exp(1i*n*x)');
+
+     % c_0
+    %offset = sprintf('0.5*exp(1i*x)'); 
+    offset = sprintf('-1'); 
+    %offset = sprintf('0'); 
 
     % Erstelle eine Figur und Achsen für den Schieberegler
     figure;
@@ -33,16 +61,28 @@ function plotComplexSeries()
     % Berechnung der Fourier-Reihe und Plot aktualisieren
     updatePlot();
 
-    function F = computeFourierSeries(x, M, term)
+    function F = computeFourierSeries(x, M, term, term2)
         % Initialisiere F für die Berechnung der Fourier-Reihe
         F = zeros(1, N);
 
         % Berechnung der Fourier-Reihe
-        for n = -M:M
-            F = F + term(x, n);
+         for l = -M:-1  
+           %disp(abs(l));
+           %F = F + term2(x, abs(l));
+         end
+        
+        for k = 1:M
+            
+            %for n = 1:M
+            %disp(((cos(n*x))/(pi))*((cos(2*pi*n)-1)/(pi*n^2))+(((sin(n*x))/(pi))*((cos(2*pi*n)-1)/(pi*n^2))));
+            %disp((((sin(n*x))/(pi))*(((sin(2*pi*n))/(pi*n^2)-2/n))));
+            F = F + term(x, k);         
+            
+     
         end
-
         F = F + eval(offset);
+  
+       
     end
 
     function updatePlot(~, ~)
@@ -54,7 +94,8 @@ function plotComplexSeries()
 
         % Berechnung der Fourier-Reihe
         n_term = @(x, n) eval(term);
-        f = computeFourierSeries(x, M, n_term);
+        n_term_2 = @(x, n) eval(term_n);
+        f = computeFourierSeries(x, M, n_term, n_term_2);
 
         x_scaled = x / pi; % Skalierung der x-Achse
 
@@ -63,8 +104,13 @@ function plotComplexSeries()
             delete(ax.Children);
         end
 
+        %disp(f);
+
         % Darstellung der Ergebnisse
         plot3(ax, x_scaled, real(f), imag(f), 'LineWidth', 2);
+        hold on;
+        plot3(ax, x_scaled, real(y), imag(y), 'LineWidth', 2);
+        hold off;
         xlabel(ax, 'x-Achse in pi'); % aktualisierte Beschriftung
         ylabel(ax, 'Realteil');
         zlabel(ax, 'Imaginärteil');
@@ -72,7 +118,7 @@ function plotComplexSeries()
 
         % Setze die Y-Limite für die Imaginär- und Realachse auf 1.2
         %ylim(ax, [-1.2, 1.2]);
-        %zlim(ax, [-0.2, 1.2]);
+        %zlim(ax, [-1.2, 1.2]);
 
     end
 end

@@ -2,9 +2,9 @@ function plotRealSeriesDynamik()
     % Anzahl der Schritte für die diskrete Berechnung
     N = 10000;
 
-    n = 10000; % Max Anzahl der Reihenglieder
+    n = 100; % Max Anzahl der Reihenglieder
 
-    startIndex = 1;
+    startIndex = 0;
 
     % Bereich für die x-Achse
     x = linspace(-10, 10, N);
@@ -12,26 +12,16 @@ function plotRealSeriesDynamik()
     %term = sprintf('-(2/(((2*n-1)^2)*pi^2))*cos((2*n-1)*x)+(((-1)^(n+1))/(n*pi))*sin(n*x)');
     %term = sprintf('((-1)^n)*power(x, n)');
     %term = sprintf('((2*n)/(factorial(n)))*power((x-1.),n)'); %G34i
-    %term = sprintf('(n/factorial(n))*power(x,n)');
-    %term = sprintf('(-3*power((x-1),n))-6*(power((x-2),n))');
-    %term = sprintf('3*power((x-1),n)-6*(power((x-2),n))');%H17a
-    %term = sprintf('3*power((x-1),n)-6*(power((x-2),n))');(2/n)*((-1)^(n+1))*cos(n*x)
-    term = sprintf('(2/n)*(power(-1,n+1))*sin(n*x)');
-    x_scaled = x / pi; % Skalierung der x-Achse
-    x_a = x; %x_scaled %Wähle x-Achse
-    % Werte ausschließen
-    excluded_values = [2,3];
-    x = setdiff(x, excluded_values);
+    term = sprintf('(n)/(factorial(n)))*power((x),n)');
 
-  
     % c_0
     %offset = sprintf('1/4'); 
-    offset = sprintf('0'); 
+    offset = sprintf(''); 
 
-   
-    y = 0;%((3*(x'-1))./(((power(x,2))-5*x)'+6));%H17a %Vergleichsfunktion
+    y = x*e; %Vergleichsfunktion
 
-   
+    x_scaled = x / pi; % Skalierung der x-Achse
+    x_a = x; %x_scaled %Wähle x-Achse
 
     % Erstelle eine Figur und Achsen für den Schieberegler
     figure;
@@ -85,7 +75,7 @@ function plotRealSeriesDynamik()
         hold on;
         plot(ax, x_a, y, 'LineWidth', 2);
         hold off;
-        xlabel(ax, 'x-Achse'); % aktualisierte Beschriftung
+        xlabel(ax, 'x-Achse in pi'); % aktualisierte Beschriftung
         ylabel(ax, 'f(x)');
         title(ax, 'Darstellung der Reihe / Funktion');
 
