@@ -2,7 +2,7 @@ function plotRealSeriesDynamik()
     % Anzahl der Schritte für die diskrete Berechnung
     N = 10000;
 
-    n = 10000; % Max Anzahl der Reihenglieder
+    n = 200; % Max Anzahl der Reihenglieder
 
     startIndex = 1;
 
