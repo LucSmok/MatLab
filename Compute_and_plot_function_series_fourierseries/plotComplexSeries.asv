@@ -39,13 +39,12 @@ function plotComplexSeries()
     %term = sprintf('((1i)/(pi*n))*((-1)^n)*exp(1i*n*x)');
     %term = sprintf('((1i*2)/(pi*n))*exp(1i*n*x)');%H18
     %term_n = sprintf('conj(((1i*2)/(pi*n)))*exp(1i*n*x)');
-    %term = sprintf('(-((power((-1),n)+1i)/(n*pi)))*exp(n*1i*x)');
-    %term_n = sprintf('conj(-((power((-1),n)+1i)/(n*pi)))*exp(n*1i*x)');
-    term = sprintf('(1/(pi*power(n,2)))*(power((-1),n)-1)*exp(1i*n*x)');
-    term_n = sprintf('conj((1/(pi*power(n,2)))*(power((-1),n)-1))*exp(1i*n*x)');
+    term = sprintf('(-((power(-1,n)+1i)/(n*pi)))*exp(n*1i*x)');
+    term_n = sprintf('conj(-((power(-1,n)+1i)/(n*pi)))*exp(n*1i*x)');
+
      % c_0
     %offset = sprintf('0.5*exp(1i*x)'); 
-    offset = sprintf('pi/2'); 
+    offset = sprintf('0'); 
     %offset = sprintf('0'); 
 
     % Erstelle eine Figur und Achsen für den Schieberegler
@@ -84,7 +83,7 @@ function plotComplexSeries()
             %disp((((sin(n*x))/(pi))*(((sin(2*pi*n))/(pi*n^2)-2/n))));
             F = F + term(x, k); 
             F = F + term2(x, k); 
-                
+            %F = F + term(x, k);         
             
      
         end

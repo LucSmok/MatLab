@@ -2,7 +2,7 @@ function plotRealSeriesDynamik()
     % Anzahl der Schritte für die diskrete Berechnung
     N = 10000;
 
-    n = 200; % Max Anzahl der Reihenglieder
+    n = 25; % Max Anzahl der Reihenglieder
 
     startIndex = 1;
 
@@ -16,7 +16,10 @@ function plotRealSeriesDynamik()
     %term = sprintf('(-3*power((x-1),n))-6*(power((x-2),n))');
     %term = sprintf('3*power((x-1),n)-6*(power((x-2),n))');%H17a
     %term = sprintf('3*power((x-1),n)-6*(power((x-2),n))');(2/n)*((-1)^(n+1))*cos(n*x)
-    term = sprintf('(2/n)*(power(-1,n+1))*sin(n*x)');
+    
+    %term = sprintf('(2/n)*(power(-1,n+1))*sin(n*x)'); %H19 funktioniert
+    term = sprintf('(2/(pi*power(n,2)))*(power((-1),n)-1)*cos(n*x)'); %H19 funktioniert
+    
     x_scaled = x / pi; % Skalierung der x-Achse
     x_a = x; %x_scaled %Wähle x-Achse
     % Werte ausschließen
@@ -26,7 +29,7 @@ function plotRealSeriesDynamik()
   
     % c_0
     %offset = sprintf('1/4'); 
-    offset = sprintf('0'); 
+    offset = sprintf('pi/2'); 
 
    
     y = 0;%((3*(x'-1))./(((power(x,2))-5*x)'+6));%H17a %Vergleichsfunktion
@@ -39,7 +42,7 @@ function plotRealSeriesDynamik()
 
     % Erstelle den Schieberegler
     M_slider = uicontrol('Style', 'slider', 'Units', 'normalized', ...
-        'Position', [0.3, 0.05, 0.4, 0.05], 'Value', n, ...
+        'Position', [0.3, 0.05, 0.4, 0.05], 'Value', 13, ...
         'Min', 1, 'Max', n, 'SliderStep', [1/9999, 100/9999], ...
         'Callback', @updatePlot);
 
