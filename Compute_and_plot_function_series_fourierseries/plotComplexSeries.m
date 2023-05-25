@@ -37,16 +37,17 @@ function plotComplexSeries()
     %a=(1/(2*pi))*(((1i*(n*pi-2*pi*n-1i)*exp(-1i*n*pi))/(pi*n^2))-(1i*(n*(-pi)-2*pi*n-1i)*exp(1i*n*pi))/(pi*n^2));
     %term = sprintf('((1i*pi)/n)*2*((-1)^n)*exp(1i*n*x)');
     %term = sprintf('((1i)/(pi*n))*((-1)^n)*exp(1i*n*x)');
-    %term = sprintf('((1i*2)/(pi*n))*exp(1i*n*x)');%H18
-    %term_n = sprintf('conj(((1i*2)/(pi*n)))*exp(1i*n*x)');
+
+    term = sprintf('((1i)/(pi*n))*exp(1i*n*x)');%H18
+    term_n = sprintf('conj(((1i)/(pi*n)))*exp(1i*n*x)');
     %term = sprintf('(-((power((-1),n)+1i)/(n*pi)))*exp(n*1i*x)');
     %term_n = sprintf('conj(-((power((-1),n)+1i)/(n*pi)))*exp(n*1i*x)');
-    term = sprintf('(1/(pi*power(n,2)))*(power((-1),n)-1)*exp(1i*n*x)');
-    term_n = sprintf('conj((1/(pi*power(n,2)))*(power((-1),n)-1))*exp(1i*n*x)');
+    %term = sprintf('(1/(pi*power(n,2)))*(power((-1),n)-1)*exp(1i*n*x)');
+    %term_n = sprintf('conj((1/(pi*power(n,2)))*(power((-1),n)-1))*exp(1i*n*x)');
      % c_0
     %offset = sprintf('0.5*exp(1i*x)'); 
-    offset = sprintf('pi/2'); 
-    %offset = sprintf('0'); 
+    %offset = sprintf('pi/2'); 
+    offset = sprintf('-1'); 
 
     % Erstelle eine Figur und Achsen für den Schieberegler
     figure;
@@ -76,19 +77,20 @@ function plotComplexSeries()
         
           % F = F + term2(x, abs(l)).* exp(2*1i*n*x);
          end
-        
+        F = F + eval(offset);
         for k = 1:M
             
             %for n = 1:M
             %disp(((cos(n*x))/(pi))*((cos(2*pi*n)-1)/(pi*n^2))+(((sin(n*x))/(pi))*((cos(2*pi*n)-1)/(pi*n^2))));
             %disp((((sin(n*x))/(pi))*(((sin(2*pi*n))/(pi*n^2)-2/n))));
-            F = F + term(x, k); 
-            F = F + term2(x, k); 
+            F = F + term(x, k);
+            F = F + term(x, -k); 
+            %F = F + term2(x, k); 
                 
             
      
         end
-        F = F + eval(offset);
+        
   
        
     end
