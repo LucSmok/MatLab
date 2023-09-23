@@ -6,8 +6,9 @@ function plotComplexSeries()
 
     % Bereich für die x-Achse
     x = linspace(-4*pi, 4*pi, N);
-    excluded_values = [0];
-    %x = setdiff(x, excluded_values);
+    %excluded_values = [1, 2];
+    excluded_values = 1;
+    x = setdiff(x, excluded_values);
 
     y=0;%exp(1i*pi);
     %y=x;%exp(1i.*x+2/3*pi);
@@ -38,8 +39,14 @@ function plotComplexSeries()
     %term = sprintf('((1i*pi)/n)*2*((-1)^n)*exp(1i*n*x)');
     %term = sprintf('((1i)/(pi*n))*((-1)^n)*exp(1i*n*x)');
 
-    term = sprintf('((1i)/(pi*n))*exp(1i*n*x)');%H18
-    term_n = sprintf('conj(((1i)/(pi*n)))*exp(1i*n*x)');
+    %term = sprintf('((1i)/(pi*n))*exp(1i*n*x)');%H18
+    %term_n = sprintf('conj(((1i)/(pi*n)))*exp(1i*n*x)');
+
+    %term = sprintf('exp(1)*exp(-1i*(x+pi/2))');
+    %term = sprintf('exp(1)*exp(1i*(x*pi/2))');
+    %term = sprintf('(1/2)*(exp(1)*exp(x)+exp(1)*exp(-x))');
+    %term_n = sprintf('conj(((1i)/(pi*n)))*exp(1i*n*x)');
+
     %term = sprintf('(-((power((-1),n)+1i)/(n*pi)))*exp(n*1i*x)');
     %term_n = sprintf('conj(-((power((-1),n)+1i)/(n*pi)))*exp(n*1i*x)');
     %term = sprintf('(1/(pi*power(n,2)))*(power((-1),n)-1)*exp(1i*n*x)');
@@ -47,7 +54,13 @@ function plotComplexSeries()
      % c_0
     %offset = sprintf('0.5*exp(1i*x)'); 
     %offset = sprintf('pi/2'); 
-    offset = sprintf('-1'); 
+
+    %Klausurvorbereitung
+    %G33
+    term = sprintf('((1*i)/(pi*(1-2*n)))*exp(1i*2*n*x)');
+    term_n = sprintf('conj(((1*i)/(pi*(1-2*n))))*exp(1i*2*n*x)');
+    offset = sprintf('(1/2)*exp(1*i*x)'); 
+    
 
     % Erstelle eine Figur und Achsen für den Schieberegler
     figure;
@@ -68,23 +81,24 @@ function plotComplexSeries()
     % Berechnung der Fourier-Reihe und Plot aktualisieren
     updatePlot();
 
-    function F = computeFourierSeries(x, M, term, term2)
+    function F = computeFourierSeries(x, M, term, term_2)
         % Initialisiere F für die Berechnung der Fourier-Reihe
         F = zeros(1, N);
 
         % Berechnung der Fourier-Reihe
-         for l = -M:-1  
-        
-          % F = F + term2(x, abs(l)).* exp(2*1i*n*x);
+         for l = 1:M
+         
+            F = F + term(x, -(M-l));
+     
          end
+
         F = F + eval(offset);
-        for k = 1:M
-            
+        for k = 2:M  
             %for n = 1:M
             %disp(((cos(n*x))/(pi))*((cos(2*pi*n)-1)/(pi*n^2))+(((sin(n*x))/(pi))*((cos(2*pi*n)-1)/(pi*n^2))));
             %disp((((sin(n*x))/(pi))*(((sin(2*pi*n))/(pi*n^2)-2/n))));
             F = F + term(x, k);
-            F = F + term(x, -k); 
+            %F = F + term(x, -k); 
             %F = F + term2(x, k); 
                 
             
