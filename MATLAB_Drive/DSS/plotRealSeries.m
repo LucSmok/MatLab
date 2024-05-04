@@ -7,17 +7,18 @@ function plotRealSeries()
     startIndex = 0;
 
     % Bereich für die x-Achse
-    x = linspace(-10, 10, N);
+    x = linspace(-4*pi, 4*pi, N);
+    x_scaled = x / pi; % Skalierung der x-Achse
 
     term = sprintf('(2/((2*n+1)*pi))*sin((2*n+1)*x)'); % Aufgabe 1 x_1
-    term_2 = sprintf('(2/((2*n+1)*pi))*sin((2*n+1)*(x+(1/2)*pi))');% Aufgabe 1 x_2
-    
-    x_scaled = x / pi; % Skalierung der x-Achse
-  
+    %term_2 = sprintf('(2/((2*n+1)*pi))*sin((2*n+1)*(x+(1/2)*pi))');% Aufgabe 1 x_2
+    %term = sprintf('((1/(pi))*(2/(1-4*n^2))*(-1)^n -(4*(-1)^(2*n))/(n^2-1))*cos(2*n*x)'); % Aufgabe 3
+    %term = sprintf('4*(-1)^n*((1)/(4*n^2-1))*cos(2*n*x)'); %Aufgabe 3.1
     % Werte ausschließen
     %excluded_values = [2,3];
     %x = setdiff(x, excluded_values);
-    offset = sprintf('1/2'); 
+    offset = sprintf('1/2');
+   
    
 
     % Erstelle eine Figur und Achsen für den Schieberegler
@@ -26,8 +27,8 @@ function plotRealSeries()
 
     % Erstelle den Schieberegler
     M_slider = uicontrol('Style', 'slider', 'Units', 'normalized', ...
-        'Position', [0.3, 0.05, 0.4, 0.05], 'Value', 10, ...
-        'Min', 1, 'Max', n, 'SliderStep', [1/9999, 100/9999], ...
+        'Position', [0.3, 0.05, 0.4, 0.05], 'Value', 1, ...
+        'Min', 1, 'Max', n, 'SliderStep', [1/100, 100/100], ...
         'Callback', @updatePlot);
 
     % Label für den Schieberegler
@@ -60,9 +61,10 @@ function plotRealSeries()
 
         % Berechnung der Fourier-Reihe
         n_term = @(x, n) eval(term);
-        n_term_2 = @(x, n) eval(term_2);
+        %n_term_2 = @(x, n) eval(term_2);
         f = computeFourierSeries(x, M, n_term);
-        g = computeFourierSeries(x, M, n_term_2);
+        
+        %g = computeFourierSeries(x, M, n_term_2);
         %g = x./x;
 
         % Lösche den alten Plot, falls vorhanden
@@ -72,12 +74,12 @@ function plotRealSeries()
 
        
         % Darstellung der Ergebnisse
-        plot(ax, x, f,'LineWidth', 2);
+        plot(ax, x_scaled, f,'LineWidth', 2);
     
         hold on;
-        plot(ax, x, g,'LineWidth', 2);
+        %plot(ax, x_scaled, g,'LineWidth', 2);
         hold off;
-        xlabel(ax, 'x-Achse'); % aktualisierte Beschriftung
+        xlabel(ax, 'x-Achse in pi'); % aktualisierte Beschriftung
         ylabel(ax, 'f(x)');
         title(ax, 'Darstellung der Reihe / Funktion');
 

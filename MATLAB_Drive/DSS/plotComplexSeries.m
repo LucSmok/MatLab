@@ -2,7 +2,7 @@ function plotComplexSeries()
     % Anzahl der Schritte für die diskrete Berechnung
     N = 1000;
 
-    n = 500; % Start Anzahl der Reihenglieder
+    n = 1; % Start Anzahl der Reihenglieder
 
     % Bereich für die x-Achse
     x = linspace(-4*pi, 4*pi, N);
